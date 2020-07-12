@@ -1,0 +1,10 @@
+spring.datasource.url= jdbc:mysql://localhost:3306/test?useSSL=false
+spring.datasource.username= root
+spring.datasource.password= HelloWorld@1997
+
+spring.jpa.properties.hibernate.dialect= org.hibernate.dialect.MySQL5InnoDBDialect
+spring.jpa.hibernate.ddl-auto= update
+
+# App Properties
+pg.app.jwtSecret= pgSecretKey
+pg.app.jwtExpirationMs= 69006900

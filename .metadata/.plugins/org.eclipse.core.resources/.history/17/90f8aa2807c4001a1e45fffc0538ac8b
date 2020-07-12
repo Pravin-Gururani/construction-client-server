@@ -1,0 +1,26 @@
+package com.pg.construction.payload.request;
+import javax.validation.constraints.NotBlank;
+
+public class LoginRequest {
+	@NotBlank
+	private Long phone;
+
+	@NotBlank
+	private String password;
+
+	public Long getPhone() {
+		return phone;
+	}
+
+	public void setPhone(Long phone) {
+		this.phone = phone;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+}
