@@ -1,6 +1,7 @@
 package com.construction.models;
-import java.util.Date;
+import java.sql.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -11,8 +12,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "bookings")
@@ -23,12 +22,10 @@ public class Bookings
 	@SequenceGenerator(name = "BOOKING_SEQ", sequenceName = "BOOKING_SEQ", allocationSize = 1 )
 	private Integer bookingId;
 	
-	@Column(name = "bookingFrom",columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP" ,nullable=false)
-	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "bookingFrom",nullable=false)
 	private Date bookingFrom;
 	
-	@Column(name = "bookingTo",columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP" ,nullable=false)
-	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "bookingTo",nullable=false)
 	private Date bookingTo;
 	
 	@Column(name="status")
@@ -37,19 +34,40 @@ public class Bookings
 	@Column(name="days_worked")
 	private Integer daysWorked;
 	
-	@OneToOne(targetEntity = User.class)
+	@OneToOne(targetEntity = User.class, fetch = FetchType.EAGER)
 	@JoinColumn(name="user", referencedColumnName = "Id")
+//	 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+//    @JsonIdentityReference(alwaysAsId = true)
 	private User user;
 	
-	@OneToOne(targetEntity = User.class)
+	@OneToOne(targetEntity = User.class, fetch = FetchType.EAGER)
 	@JoinColumn(name="employee", referencedColumnName = "Id")
+//	 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+//    @JsonIdentityReference(alwaysAsId = true)
 	private User employee;
+	
+	@OneToOne(targetEntity = Rating.class, cascade = CascadeType.ALL)
+	@JoinColumn(name="rating", referencedColumnName = "Id")
+	private Rating rating;
 
+	//@OneToOne(targetEntity = Address.class,cascade = CascadeType.MERGE,fetch = FetchType.EAGER)
+	@Column(name="address")
+	private String address;
+	
+	@Column(name="service")
+	private String service;
+	
+	@Column(name="subService")
+	private String subService;
+	
+	@Column(name="description")
+	private String description;
+	
 	public Bookings() {
 	}
 
 	public Bookings(Date bookingFrom, Date bookingTo, String status, Integer daysWorked, User user,
-			User employee) {
+			User employee,Rating rating, String address,String service,String subService,String description) {
 		super();
 		this.bookingFrom = bookingFrom;
 		this.bookingTo = bookingTo;
@@ -57,6 +75,11 @@ public class Bookings
 		this.daysWorked = daysWorked;
 		this.user = user;
 		this.employee = employee;
+		this.rating=rating;
+		this.address=address;
+		this.service=service;
+		this.subService=subService;
+		this.description=description;
 	}
 
 	public Integer getBookingId() {
@@ -114,11 +137,47 @@ public class Bookings
 	public void setEmployee(User employee) {
 		this.employee = employee;
 	}
+	public Rating getRating() {
+		return rating;
+	}
+	public void setRating(Rating rating) {
+		this.rating = rating;
+	}
 
-//	@OneToOne(mappedBy="addressId")
-//	private Employees employees;
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public String getService() {
+		return service;
+	}
+
+	public void setService(String service) {
+		this.service = service;
+	}
+
+	public String getSubService() {
+		return subService;
+	}
+
+	public void setSubService(String subService) {
+		this.subService = subService;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
 	
 //	@OneToOne(mappedBy="addressId")
+//	private Employees employees;	
+//	@OneToOne(mappedBy="addressId")
 //	private Users users;
-
 }

@@ -7,16 +7,21 @@ public class JwtResponse {
 	private Long id;
 	private String username;
 	private String email;
-	private Long phone;
+	private String name;
 	private List<String> roles;
+	private Boolean isVerified;
+	private Boolean isEnabled;
+	
 
-	public JwtResponse(String accessToken, Long id, String username, String email, List<String> roles, Long phone) {
+	public JwtResponse(String accessToken, Long id, String username, String email, List<String> roles, String name, Boolean isVerified,Boolean isEnabled) {
 		this.token = accessToken;
 		this.id = id;
 		this.username = username;
 		this.email = email;
 		this.roles = roles;
-		this.phone=phone;
+		this.name=name;
+		this.isVerified=isVerified;
+		this.isEnabled=isEnabled;
 	}
 
 	public String getAccessToken() {
@@ -63,15 +68,24 @@ public class JwtResponse {
 	
 	
 
-	public Long getPhone() {
-		return phone;
+	public String getName() {
+		return name;
 	}
 
-	public void setPhone(Long phone) {
-		this.phone = phone;
+	public void setPhone(String name) {
+		this.name = name;
 	}
 
 	public List<String> getRoles() {
 		return roles;
 	}
+
+	public Boolean getIsVerified() {
+		return isVerified;
+	}
+
+	public Boolean getIsEnabled() {
+		return isEnabled;
+	}
+	
 }

@@ -1,15 +1,7 @@
 package com.construction.controllers;
-import java.util.List;
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,43 +10,46 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.construction.models.Bookings;
 import com.construction.models.Commissions;
-import com.construction.repository.CommissionsRepository;
 import com.construction.responses.GlobalResponseData;
 import com.construction.responses.GlobalResponseListData;
+import com.construction.service.CommissionService;
 
 
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "*")
 @RestController
-@RequestMapping("/commissions")
+@RequestMapping("/commission")
 public class CommissionsController {
 
 	@Autowired
-	CommissionsRepository commissionRepository;
+	CommissionService commissionService;
 	
 	GlobalResponseData globalResponseData;
 	
 	GlobalResponseListData globalResponseListData;
-
 	
-	//1. GET ALL COMMISSION
 	
-	@GetMapping("/getallcommissions")
-	public ResponseEntity<List<Commissions>> getAllcommissions() {
-		try {
-			List<Commissions> commissions = commissionRepository.findAll();
-			
-			if (commissions.isEmpty()) {
-				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-			}
-
-			return new ResponseEntity<>(commissions, HttpStatus.OK);
-			
-		} catch (Exception e) {
-			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-		}
+	@GetMapping("/getbyid/{id}")
+	public ResponseEntity<GlobalResponseData> getCommissionById(@PathVariable("id") Integer id) {
+		return commissionService.getCommissionById(id);
 	}
+	
+	@PostMapping("/add")
+	public ResponseEntity<GlobalResponseData> addCommission(@RequestBody Commissions add)
+	{
+		return commissionService.addCommission(add);
+	}
+	@GetMapping("/getall")
+	public ResponseEntity<GlobalResponseListData> getAllCommissions() {
+		return commissionService.getAllCommissions();
+	}
+		
+	@GetMapping("/getbyusername")
+	public ResponseEntity<GlobalResponseListData> getCommissionsByUsername() {
+		
+		return commissionService.getCommissionsByUsername();
+	}
+	
 	
 	
 	//2. GET COMMISSIONS BY ID
@@ -68,70 +63,15 @@ public class CommissionsController {
 //			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 //		}
 //	}
-//	
-//	
-	//3. ADD NEW COMMISSIONS
-	@PostMapping("/addcommissions")
-	public ResponseEntity<Commissions> addCommission(@RequestBody Commissions add) {
-		try {
-			Commissions newCommissions = commissionRepository.save(new Commissions(
-					add.getBookingId(),
-					add.getTotalCommissionAmount(),
-					add.getDueCommissionAmount(),
-					add.getCommissionStatus()
-					)); 
-			return new ResponseEntity<>(newCommissions, HttpStatus.CREATED);
-		} catch (Exception e) {
-			globalResponseData= new GlobalResponseData("false", 417, "Failure:Data Expectation Failed");
-			return new ResponseEntity<>(null, HttpStatus.EXPECTATION_FAILED);
-		}
-			
-	}
 	
 	
-	
-	
-	@GetMapping("/commissions/employee/username")
-	public ResponseEntity<GlobalResponseListData> getbookingsByEmployeeId() {
+	//4. UPDATE COMMISSIONS BY ID
+	@PutMapping("/updatebyid/{id}")
+	public ResponseEntity<GlobalResponseData> updateCommissions(@PathVariable("id") Integer id, @RequestBody Commissions newUpdateCommissions) {
 		
-		String username = "84102308531";
+		return commissionService.updateCommission(id, newUpdateCommissions);
 		
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		if (!(authentication instanceof AnonymousAuthenticationToken)) {
-		    String currentUserName = authentication.getName();
-		    username= currentUserName;
-
-		}
-		try {
-			List<Commissions> commissions = commissionRepository.findUsername(username);
-			
-			if (commissions.isEmpty()) {
-				globalResponseListData = new GlobalResponseListData("false", 404, "Failure:Result Not Found");
-				return new ResponseEntity<>(globalResponseListData,HttpStatus.NOT_FOUND);
-			}
-
-			globalResponseListData =new GlobalResponseListData("true", 200, "success",commissions);
-			return new ResponseEntity<>(globalResponseListData, HttpStatus.OK);
-			
-		} 
-		catch (Exception e) {
-			globalResponseListData= new GlobalResponseListData("false", 500, "Failure:Internal Server Error");
-			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-	}
-//	
-//
-//	//4. UPDATE COMMISSIONS BY ID
-//	
-//	@PutMapping("/updatecommissions/{id}")
-//	public ResponseEntity<Commissions> updateCommissions(@PathVariable("id") Integer id, @RequestBody Commissions newUpdateCommissions) {
-//		
-//		return commissionsService.updateCommissions(id, newUpdateCommissions);
-//		
-//	}
-//	
-//
-//	
+	}	
 //	//5. DELETE COMMISSIONS BY ID
 //	
 //	@DeleteMapping("/deletecommissions/{id}")

@@ -49,6 +49,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
+	
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
@@ -58,9 +59,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.authorizeRequests().antMatchers("/signin/**").permitAll()
 			.antMatchers("/api/test/**").permitAll()
 			.antMatchers("/booking/**").permitAll()
-			.antMatchers("/commissions/**").permitAll()
+			.antMatchers("/**").permitAll()
 			.anyRequest().authenticated();
 
+		http.headers().frameOptions().disable();
 		http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
 	}
 }

@@ -23,12 +23,6 @@ public class Locations
 	public Locations() {
 	}
 
-	public Locations(Integer locationId, String locationName) {
-		super();
-		this.locationId = locationId;
-		this.locationName = locationName;
-	}
-
 	public Locations(String locationName) {
 		this.locationName = locationName;
 	}
