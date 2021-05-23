@@ -31,16 +31,20 @@ public class Commissions
 	@Column(name="commission_status")
 	private String commissionStatus;
 
+	@Column(name="paid_commission_amount")
+	private Integer paidCommissionAmount;
+	
 	public Commissions() {
 	}
 
 	public Commissions(Bookings bookingId, Integer totalCommissionAmount, Integer dueCommissionAmount,
-			String commissionStatus) {
+			String commissionStatus,Integer paidCommissionAmount) {
 		super();
 		this.bookingId = bookingId;
 		this.totalCommissionAmount = totalCommissionAmount;
 		this.dueCommissionAmount = dueCommissionAmount;
 		this.commissionStatus = commissionStatus;
+		this.paidCommissionAmount=paidCommissionAmount;
 	}
 
 	public Integer getCommissionId() {
@@ -82,5 +86,15 @@ public class Commissions
 	public void setCommissionStatus(String commissionStatus) {
 		this.commissionStatus = commissionStatus;
 	}
+
+	public Integer getPaidCommissionAmount() {
+		return paidCommissionAmount;
+	}
+
+	public void setPaidCommissionAmount(Integer paidCommissionAmount) {
+		this.paidCommissionAmount = paidCommissionAmount;
+	}
+	
+	
 
 }

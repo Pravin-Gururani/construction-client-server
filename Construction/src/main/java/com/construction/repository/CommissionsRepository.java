@@ -6,7 +6,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import com.construction.models.Bookings;
 import com.construction.models.Commissions;
 
 
@@ -15,5 +14,10 @@ import com.construction.models.Commissions;
 public interface CommissionsRepository extends JpaRepository<Commissions, Integer> 
 {
 	@Query(value="select * from commissions where booking_id in (select booking_id from bookings where employee=(select id from users where username=:username))",nativeQuery = true)
-	List<Commissions> findUsername(@Param("username")String username);
+	List<Commissions> findCommissionsByUsername(@Param("username")String username);
+	
+	@Query(value="select total_commission_amount as totalAmount, due_commission_amount as totalDue from commissions where booking_id in (select booking_id from bookings where employee=(select id from users where username=:username))",nativeQuery = true)
+//	ArrayList<HashMap<Integer, Integer>> findEmployeeRating(@Param("employeeId") Integer employeeId);
+	List<Integer> findcommissionsTotal(@Param("username")String username);
+	
 }

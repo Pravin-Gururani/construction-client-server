@@ -2,26 +2,26 @@ package com.construction.payload.request;
 import java.sql.Date;
 import java.util.Set;
 
-import javax.validation.constraints.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
-import com.construction.models.Address;
 import com.construction.models.EmployeeData;
-import com.construction.models.Locations;
  
 public class SignupRequest {
  
-    @NotBlank
+    //@NotBlank
     @Size(max = 50)
     @Email
     private String email;
     
-    private Set<String> role;
+    private Set<String> roles;
     
-    @NotBlank
+    //@NotBlank
     @Size(min = 6, max = 40)
     private String password;
     
-    @NotBlank
+    //@NotBlank
     @Size(min = 10, max = 10)
     private Long phone;
     
@@ -30,7 +30,7 @@ public class SignupRequest {
 	
 	private Integer age;
 	
-	private Integer experience;
+	private String experience;
 	
 	private Integer commissionRate;
 	
@@ -48,14 +48,24 @@ public class SignupRequest {
 	
 	private String aadharBack;
 	
-	private Locations locationId;
-	
-	private Address addressId;
+	private String location;
 	
 	private EmployeeData employeeData;
+	
+	private Date dob;
+	
+	private Boolean isEnabled;
 
   
-    public Long getPhone() {
+    public Date getDob() {
+		return dob;
+	}
+
+	public void setDob(Date dob) {
+		this.dob = dob;
+	}
+
+	public Long getPhone() {
 		return phone;
 	}
 
@@ -79,12 +89,12 @@ public class SignupRequest {
         this.password = password;
     }
     
-    public Set<String> getRole() {
-      return this.role;
+    public Set<String> getRoles() {
+      return this.roles;
     }
     
-    public void setRole(Set<String> role) {
-      this.role = role;
+    public void setRoles(Set<String> role) {
+      this.roles = role;
     }
 
 	public String getName() {
@@ -103,11 +113,11 @@ public class SignupRequest {
 		this.age = age;
 	}
 
-	public Integer getExperience() {
+	public String getExperience() {
 		return experience;
 	}
 
-	public void setExperience(Integer experience) {
+	public void setExperience(String experience) {
 		this.experience = experience;
 	}
 
@@ -175,21 +185,14 @@ public class SignupRequest {
 		this.aadharBack = aadharBack;
 	}
 
-	public Locations getLocationId() {
-		return locationId;
+	public String getLocation() {
+		return location;
 	}
 
-	public void setLocationId(Locations locationId) {
-		this.locationId = locationId;
+	public void setLocation(String location) {
+		this.location = location;
 	}
 
-	public Address getAddressId() {
-		return addressId;
-	}
-
-	public void setAddressId(Address addressId) {
-		this.addressId = addressId;
-	}
 
 	public EmployeeData getEmployeeData() {
 		return employeeData;
@@ -197,5 +200,13 @@ public class SignupRequest {
 
 	public void setEmployeeData(EmployeeData employeeData) {
 		this.employeeData = employeeData;
+	}
+
+	public Boolean getIsEnabled() {
+		return isEnabled;
+	}
+
+	public void setIsEnabled(Boolean isEnabled) {
+		this.isEnabled = isEnabled;
 	}
 }
